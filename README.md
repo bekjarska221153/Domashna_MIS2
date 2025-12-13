@@ -1,6 +1,16 @@
-# domasna2_mis
+# Recipe App – MIS
 
-A new Flutter project.
+## Laboratory Exercise 2
+Flutter application for browsing meal categories and recipes using TheMealDB API.
+
+## Laboratory Exercise 3 (Extension)
+This version extends the previous laboratory by adding:
+- Favorite recipes functionality
+- Notification support (local / Firebase) for "Recipe of the Day"
+- Improved project structure (services, screens, widgets)
+
+The application allows users to receive a notification and open a random recipe.
+
 
 ## Getting Started
 

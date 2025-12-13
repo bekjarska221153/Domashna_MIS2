@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../models/meal.dart';
+import '../services/favorites_service.dart';
 
 class MealCard extends StatelessWidget {
   final Meal meal;
@@ -13,7 +15,7 @@ class MealCard extends StatelessWidget {
       onTap: () {
         Navigator.pushNamed(
           context,
-          '/mealDetails',
+          '/meal-details',
           arguments: meal,
         );
       },
@@ -24,16 +26,46 @@ class MealCard extends StatelessWidget {
         ),
         child: Padding(
           padding: const EdgeInsets.all(10),
-          child: Column(
+          child: Stack(
             children: [
-              Expanded(
-                child: Image.network(meal.thumbnail, fit: BoxFit.cover),
+              Column(
+                children: [
+                  Expanded(
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: Image.network(
+                        meal.thumbnail,
+                        fit: BoxFit.cover,
+                        width: double.infinity,
+                      ),
+                    ),
+                  ),
+                  const Divider(),
+                  Text(
+                    meal.name,
+                    style: const TextStyle(fontSize: 18),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
               ),
-              const Divider(),
-              Text(
-                meal.name,
-                style: const TextStyle(fontSize: 18),
-                textAlign: TextAlign.center,
+
+              Positioned(
+                top: 0,
+                right: 0,
+                child: Consumer<FavoritesService>(
+                  builder: (context, favService, _) {
+                    final isFav = favService.isFavorite(meal);
+                    return IconButton(
+                      icon: Icon(
+                        isFav ? Icons.favorite : Icons.favorite_border,
+                        color: isFav ? Colors.red : Colors.grey,
+                      ),
+                      onPressed: () {
+                        favService.toggleFavorite(meal);
+                      },
+                    );
+                  },
+                ),
               ),
             ],
           ),

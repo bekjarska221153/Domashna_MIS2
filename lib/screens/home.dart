@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import '../services/notification_service.dart';
 import '../models/meal_category.dart';
 import '../services/api_service.dart';
 import '../widgets/category_grid.dart';
@@ -69,7 +69,7 @@ class _MyHomePageState extends State<MyHomePage> {
     if (randomMeal != null && mounted) {
       Navigator.pushNamed(
         context,
-        '/mealDetails',
+        '/meal-details',
         arguments: randomMeal,
       );
     }
@@ -83,6 +83,13 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
         actions: [
           IconButton(
+            icon: const Icon(Icons.favorite),
+            tooltip: 'Омилени рецепти',
+            onPressed: () {
+              Navigator.pushNamed(context, '/favorites');
+            },
+          ),
+          IconButton(
             onPressed: _isRandomLoading ? null : _showRandomMeal,
             icon: _isRandomLoading
                 ? const SizedBox(
@@ -95,7 +102,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ],
       ),
-      body: _isLoading
+        body: _isLoading
           ? const Center(child: CircularProgressIndicator())
           : Column(
         children: [
